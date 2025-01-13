@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <nav className="bg-gradient-to-r from-primary to-secondary text-white font-sans w-full">
@@ -44,7 +50,7 @@ const NavBar = () => {
             />
             <FiSearch className="absolute top-2/4 left-3 -translate-y-1/2 text-white" />
           </div>
-          <button className="bg-white text-[#023c73] py-2 px-4 rounded-full font-medium shadow-md hover:bg-gray-200">
+          <button onClick={goToLogin} className="bg-white text-[#023c73] py-2 px-4 rounded-full font-medium shadow-md hover:bg-gray-200">
             Login
           </button>
         </div>
@@ -67,7 +73,7 @@ const NavBar = () => {
         </div>
 
         {/* Mobile Login Button */}
-        <button className="relative mb-4 bg-white text-[#023c73] py-2 px-4 rounded-full font-medium shadow-md hover:bg-gray-200">
+        <button onClick={goToLogin} className="relative mb-4 bg-white text-[#023c73] py-2 px-4 rounded-full font-medium shadow-md hover:bg-gray-200">
           Login
         </button>
       </div>
