@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+
+const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleForm = () => {
+    setIsSignUp(!isSignUp);
+    navigate(isSignUp ? "/login" : "/signup"); // Update URL
+  };
+
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   const handleChange = (e) => {
@@ -12,14 +21,14 @@ const LoginPage = () => {
     e.preventDefault();
     const endpoint = isSignUp ? '/signup' : '/login';
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`http://localhost:8080${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
       const data = await response.json();
       if (data.success) {
-        alert(isSignUp ? 'Sign-up successful!' : 'Login successful!');
+        alert(isSignUp ? `Sign-up successful! ${data.message} ` : `Login successful! ${data.message}`);
       } else {
         alert(data.message);
       }
@@ -77,7 +86,7 @@ const LoginPage = () => {
             <>
               Already have an account?{' '}
               <span
-                onClick={() => setIsSignUp(false)}
+                onClick={toggleForm}
                 className="text-blue-600 cursor-pointer hover:underline"
               >
                 Login
@@ -87,7 +96,7 @@ const LoginPage = () => {
             <>
               Don't have an account?{' '}
               <span
-                onClick={() => setIsSignUp(true)}
+                onClick={toggleForm}
                 className="text-blue-600 cursor-pointer hover:underline"
               >
                 Sign Up
@@ -101,4 +110,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AuthPage;
