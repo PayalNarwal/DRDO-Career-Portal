@@ -25,16 +25,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.post("/login", (req, res) => {
-  // Your login logic here
-  res.json({ success: true, message: "Password matched" });
-});
-
-app.post("/signup", (req, res) => {
-  // Your signup logic here
-  res.json({ success: true, message: "User added to DB" });
-});
-
 main()
   .then(() => {
     console.log("connected to DB");
