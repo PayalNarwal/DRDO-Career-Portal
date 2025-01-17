@@ -26,7 +26,7 @@ module.exports.signup = async (req, res, next) => {
 
 // Login API
 module.exports.login = async (req, res) => {
-    req.flash("success", "Welcome to DRDO Careers! You are logged in!");
+    return res.json({ success: true, message: "Login successful!" });
 };
 // Logout API
 module.exports.logout = async (req, res) => {
