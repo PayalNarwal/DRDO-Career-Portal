@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
   return (
     <header
-      className="relative bg-cover bg-center h-96 flex justify-start px-8 text-white"
+      className="relative bg-cover bg-center h-96 flex justify-start px-8 mb-6 text-white"
       style={{
         backgroundImage: 'url("../../public/drdo-bg-banner.jpg")', // Path to your background image
       }}
