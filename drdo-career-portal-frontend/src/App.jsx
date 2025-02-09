@@ -5,6 +5,9 @@ import AuthPage from "./pages/AuthPage";
 import ApplyPage from "./pages/ApplyPage";
 import JobDetailsPage from "./pages/JobDetailsPage";
 import "./output.css";
+import AdminHomePage from "./pages/AdminHomePage";
+import AdminJobEditPage from "./pages/AdminJobEditPage";
+import AdminJobCreatePage from "./pages/AdminJobCreatePage";
 
 const App = () => {
   return (
@@ -14,6 +17,10 @@ const App = () => {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
         <Route path="/admin" element={<AuthPage />} />
+        <Route path="/admin/:username" element={<AdminHomePage />} />
+        <Route path="/admin/:username/new" element={<AdminJobCreatePage />} />
+        <Route path="/admin/:username/edit/:jobID" element={<AdminJobEditPage />} />
+        
         <Route path="/apply/:jobId" element={<ApplyPage />} />
         <Route path="/job/:jobId" element={<JobDetailsPage />} />
       </Routes>
