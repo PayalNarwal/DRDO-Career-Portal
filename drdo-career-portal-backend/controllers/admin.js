@@ -1,27 +1,27 @@
-const User = require("../models/user");
+const Admin = require("../models/admin");
 const passport = require("passport");
 
-// Signup API
+// Admin Signup API
 module.exports.signup = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
-        const newUser = new User({ email, username: email });
-        const registeredUser = await User.register(newUser, password);
-        req.login(registeredUser, (err) => {
+        const newAdmin = new Admin({ email, username: email });
+        const registeredAdmin = await Admin.register(newAdmin, password);
+        req.login(registeredAdmin, (err) => {
             if (err) {
                 return next(err);
             }
             return res
                 .status(200)
-                .json({ success: true, message: "Signup successful!" });
+                .json({ success: true, message: "Admin signup successful!" });
         });
     } catch (e) {
-        console.log("Signup Error:", e.message);
+        console.log("Admin Signup Error:", e.message);
         return res.status(400).json({ success: false, message: e.message });
     }
 };
 
-// User Login API
+// Admin Login API
 module.exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -31,14 +31,14 @@ module.exports.login = async (req, res, next) => {
                 message: "Email and password are required.",
             });
         }
-        const user = await User.findOne({ email });
-        if (!user) {
+        const admin = await Admin.findOne({ email });
+        if (!admin) {
             return res.status(401).json({
                 success: false,
-                message: "User not found.",
+                message: "Admin not found.",
             });
         }
-        const auth = User.authenticate();
+        const auth = Admin.authenticate();
         auth(email, password, (err, result) => {
             if (err || !result) {
                 return res.status(401).json({
@@ -47,29 +47,32 @@ module.exports.login = async (req, res, next) => {
                 });
             }
 
-            req.login(user, (loginErr) => {
+            req.login(admin, (loginErr) => {
                 if (loginErr) {
                     return next(loginErr);
                 }
                 return res.status(200).json({
                     success: true,
-                    message: "User login successful!",
+                    message: "Admin login successful!",
                 });
             });
         });
     } catch (error) {
-        console.error("User Login Error:", error.message);
+        console.error("Admin Login Error:", error.message);
         res.status(500).json({ success: false, message: "Server error." });
     }
 };
 
-// Logout API
+// Admin Logout API
 module.exports.logout = async (req, res) => {
     req.logout((err) => {
         if (err)
             return res
                 .status(500)
                 .json({ success: false, message: err.message });
-        res.status(200).json({ success: true, message: "Logout successful!" });
+        res.status(200).json({
+            success: true,
+            message: "Admin logout successful!",
+        });
     });
 };
