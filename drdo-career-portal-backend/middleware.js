@@ -1,15 +1,28 @@
-module.exports.isLoggedIn = (req, res, next) => {
-    if (!req.isAuthenticated()) {
-        req.session.redirectUrl = req.originalUrl;
-        req.flash("error", "You must be logged in to create listing!");
-        return res.redirect("/login");
+const JobProfile = require("./models/jobprofile");
+
+module.exports.isAdminLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated() || req.user.type !== "Admin") {
+        return res
+            .status(401)
+            .json({ error: "Unauthorized. Admin must be logged in" });
     }
     next();
 };
 
-module.exports.saveRedirectUrl = (req, res, next) => {
-    if (req.session.redirectUrl) {
-        res.locals.redirectUrl = req.session.redirectUrl;
+module.exports.isOwner = async (req, res, next) => {
+    const { id } = req.params;
+    const job = await JobProfile.findById(id);
+    if (!job || job.owner.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+    next();
+};
+
+module.exports.isUserLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated() || req.user.type !== "User") {
+        return res
+            .status(401)
+            .json({ error: "Unauthorized. User login required." });
     }
     next();
 };

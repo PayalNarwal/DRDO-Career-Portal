@@ -14,6 +14,8 @@ const User = require("./models/user");
 const Admin = require("./models/admin");
 const userRouter = require("./routes/user.js");
 const adminRouter = require("./routes/admin.js");
+const jobProfileRouter = require("./routes/jobprofile.js");
+const applyRouter = require("./routes/apply");
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -42,8 +44,8 @@ const sessionOptions = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        expires: Date.now() + 1 * 24 * 60 * 60 * 1000,
+        maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true,
     },
 };
@@ -78,6 +80,8 @@ passport.deserializeUser(async (obj, done) => {
 
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
+app.use("/jobs", jobProfileRouter);
+app.use("/apply", applyRouter);
 
 app.listen(8080, () => {
     console.log("Server running on port 8080");
