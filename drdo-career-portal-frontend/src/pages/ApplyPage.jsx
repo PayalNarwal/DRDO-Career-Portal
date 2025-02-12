@@ -1,12 +1,12 @@
 import React from "react";
-import NavSimple from "../components/NavSimple";
 import ApplyForm from "../components/ApplyForm";
 import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
 
 const ApplyPage = () => {
   return (
     <>
-      <NavSimple />
+      <NavBar />
       <ApplyForm />
       <Footer />
     </>

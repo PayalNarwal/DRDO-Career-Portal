@@ -62,7 +62,7 @@ const AdminJobTable = (props) => {
         </h1>
         <button
           onClick={handleCreateNew}
-          className="text-white text-center mb-4 bg-yellow-400 hover:bg-yellow-500 py-1 px-3 rounded-lg"
+          className="text-white font-bold text-center mb-4 bg-yellow-400 hover:bg-yellow-500 py-1 px-3 rounded-lg"
         >
           Post New Job
         </button>

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const ApplyForm = () => {
   const location = useLocation();
   const job = location.state?.job;
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -182,7 +182,9 @@ const ApplyForm = () => {
         </form>
       ) : (
         <div className="text-center text-red-600 font-semibold mt-6">
-            {job?.status === "Open" ? "Please log in to submit your application." : "Applications are closed for this job."}
+          {job?.status === "Open"
+            ? "Please log in to submit your application."
+            : "Applications are closed for this job."}
         </div>
       )}
     </div>

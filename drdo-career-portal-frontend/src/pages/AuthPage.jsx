@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../features/authSlice";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
-    navigate(!isSignUp ? "/signup" : "/login"); 
+    navigate(!isSignUp ? "/signup" : "/login");
   };
 
   const handleAdminLogin = () => {
     setIsAdmin(true);
-    navigate( "/admin" ); 
-    alert(" admin login.");
-    // if (username.trim() !== "") {
-    //   // Redirect to the admin page with the username
-    //   // navigate(`/admin/${username}`);
-    //   alert(" admin login.");
-    // } else {
-    //   alert("Please enter a username for admin login.");
-    // }
+    navigate("/admin");
   };
 
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -32,20 +27,24 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isSignUp ? "/signup" : isAdmin ? "/admin" : "login";
+    const profile = isAdmin ? "admin" : "user";
+    const endpoint = isSignUp ? "signup" : "login";
     try {
-      const response = await fetch(`http://localhost:8080${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://localhost:8080/${profile}/${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await response.json();
       if (data.success) {
-        alert(
-          isSignUp
-            ? `Sign-up successful! ${data.message} `
-            : `Login successful! ${data.message}`
-        );
+        // console.log(data);
+        dispatch(loginSuccess({ email: data.data.email })); // Assuming data.user contains user info like username
+        navigate("/");
+        // localStorage.setItem("redirectTo", window.location.pathname);
+        // navigate("/login");
       } else {
         alert(data.message);
       }
