@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
@@ -10,7 +11,10 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const handleLogout = () => {
+    Cookies.remove('userEmail');
+    Cookies.remove('isLoggedIn');  
     dispatch(logout());
+    navigate('/');
   };
 
   const goToLogin = () => {

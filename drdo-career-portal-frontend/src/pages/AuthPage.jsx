@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 import { loginSuccess } from "../features/authSlice";
 
 const AuthPage = () => {
@@ -42,6 +43,9 @@ const AuthPage = () => {
       if (data.success) {
         // console.log(data);
         dispatch(loginSuccess({ email: data.data.email })); // Assuming data.user contains user info like username
+        // Set cookie with user data (e.g., email or authToken)
+        Cookies.set("userEmail", data.data.email);
+        Cookies.set("isLoggedIn", "true");
         navigate("/");
         // localStorage.setItem("redirectTo", window.location.pathname);
         // navigate("/login");
