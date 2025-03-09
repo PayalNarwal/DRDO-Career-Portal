@@ -10,8 +10,9 @@ import "./output.css";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminJobEditPage from "./pages/AdminJobEditPage";
 import AdminJobCreatePage from "./pages/AdminJobCreatePage";
-import { loginSuccess } from './features/authSlice';  // Adjust path as needed
+import { loginSuccess } from './features/authSlice'; 
 import AdminSignUp from "./pages/adminSignUp";
+import AdminLoginPage from "./pages/AdminLoginPage";
 
 
 const App = () => {
@@ -31,7 +32,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
-        <Route path="/admin" element={<AuthPage />} />
+        <Route path="/admin" element={<AdminLoginPage />} />
         <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/:username" element={<AdminHomePage />} />
         <Route path="/admin/:username/new" element={<AdminJobCreatePage />} />

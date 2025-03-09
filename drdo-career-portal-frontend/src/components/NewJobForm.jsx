@@ -22,17 +22,17 @@ const NewJobForm = () => {
 
     // Prepare form data
     const formData = new FormData();
-    formData.append("jobName", jobName);
+    formData.append("title", jobName);
     formData.append("category", category);
-    formData.append("publishDate", publishDate);
-    formData.append("lastDate", lastDate);
+    formData.append("startDate", publishDate);
+    formData.append("endDate", lastDate);
     formData.append("status", status);
     formData.append("document", document);
 
     // Send formData to your backend API
-    fetch("/api/jobs", {
+    fetch(`http://localhost:8080/jobs`, {
       method: "POST",
-      body: formData,
+      body: formData,      
     })
       .then((response) => response.json())
       .then((data) => {

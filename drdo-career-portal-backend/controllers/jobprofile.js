@@ -19,6 +19,9 @@ module.exports.showJob = async (req, res) => {
 
 // Create a new job profile
 module.exports.createJob = async (req, res) => {
+    console.log("Received form data:", req.body);
+    console.log("Received file:", req.file);
+    
     const { title, category, startDate, endDate, status } = req.body;
     const owner = req.user._id;
 

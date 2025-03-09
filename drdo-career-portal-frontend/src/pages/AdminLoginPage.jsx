@@ -4,16 +4,9 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { loginSuccess } from "../features/authSlice";
 
-const AuthPage = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+const AdminLoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const toggleForm = () => {
-    setIsSignUp(!isSignUp);
-    navigate(!isSignUp ? "/signup" : "/login");
-  };
-
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -22,22 +15,21 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isSignUp ? "signup" : "login";
-
     try {
-      const response = await fetch(`http://localhost:8080/user/${endpoint}`, {
+      const response = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
 
+      const data = await response.json();
       if (data.success) {
         dispatch(loginSuccess({ email: data.data.email }));
-        Cookies.set("userEmail", data.data.email);
-        Cookies.set("isLoggedIn", "true");
+        Cookies.set("adminEmail", data.data.email);
+        Cookies.set("isAdmin", "true");
 
-        navigate("/");
+        const emailWithoutDomain = data.data.email.split("@")[0];
+        navigate(`/admin/${emailWithoutDomain}`);
       } else {
         alert(data.message);
       }
@@ -47,20 +39,15 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-50">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md px-8 py-6 space-y-6 bg-white rounded-lg shadow-md">
-        <img
-          className="bg-primary rounded-sm p-4 "
-          src="../../public/drdo_logo_header.png"
-          alt="DRDO Logo"
-        />
         <h2 className="text-2xl font-bold text-center text-gray-800">
-          {isSignUp ? "Create an Account" : "Welcome Back User!"}
+          Welcome Back Admin!
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
-              Email
+              Admin Email
             </label>
             <input
               type="email"
@@ -69,7 +56,7 @@ const AuthPage = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter your email"
+              placeholder="Enter admin email"
             />
           </div>
           <div>
@@ -83,45 +70,22 @@ const AuthPage = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter your password"
+              placeholder="Enter admin password"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
+            className="w-full py-2 text-white bg-yellow-600 rounded-md hover:bg-yellow-700 focus:outline-none"
           >
-            {isSignUp ? "Sign Up" : "Login"}
+            Login as Admin
           </button>
         </form>
         <p className="text-sm text-center text-gray-600">
-          {isSignUp ? (
-            <>
-              Already have an account?{" "}
-              <span
-                onClick={toggleForm}
-                className="text-blue-600 cursor-pointer hover:underline"
-              >
-                Login
-              </span>
-            </>
-          ) : (
-            <>
-              Don't have an account?{" "}
-              <span
-                onClick={toggleForm}
-                className="text-blue-600 cursor-pointer hover:underline"
-              >
-                Sign Up
-              </span>
-            </>
-          )}
-        </p>
-        <p className="text-sm text-center text-gray-600">
           <span
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/login")}
             className="text-blue-600 cursor-pointer hover:underline"
           >
-            Login as Admin
+            Go to User Login
           </span>
         </p>
       </div>
@@ -129,4 +93,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default AdminLoginPage;
