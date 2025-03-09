@@ -11,6 +11,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import AdminJobEditPage from "./pages/AdminJobEditPage";
 import AdminJobCreatePage from "./pages/AdminJobCreatePage";
 import { loginSuccess } from './features/authSlice';  // Adjust path as needed
+import AdminSignUp from "./pages/adminSignUp";
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
         <Route path="/admin" element={<AuthPage />} />
+        <Route path="/admin/signup" element={<AdminSignUp />} />
         <Route path="/admin/:username" element={<AdminHomePage />} />
         <Route path="/admin/:username/new" element={<AdminJobCreatePage />} />
         <Route

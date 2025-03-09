@@ -23,49 +23,6 @@ module.exports.signup = async (req, res, next) => {
   }
 };
 
-// // User Login API
-// module.exports.login = async (req, res, next) => {
-//   try {
-//     const { email, password } = req.body;
-//     if (!email || !password) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Email and password are required.",
-//       });
-//     }
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "User not found.",
-//       });
-//     }
-//     const auth = User.authenticate();
-//     auth(email, password, (err, result) => {
-//       if (err || !result) {
-//         return res.status(401).json({
-//           success: false,
-//           message: "Invalid email or password.",
-//         });
-//       }
-
-//       req.login(user, (loginErr) => {
-//         if (loginErr) {
-//           return next(loginErr);
-//         }
-//         return res.status(200).json({
-//           data: { email: email },
-//           success: true,
-//           message: "User login successful!",
-//         });
-//       });
-//     });
-//   } catch (error) {
-//     console.error("User Login Error:", error.message);
-//     res.status(500).json({ success: false, message: "Server error." });
-//   }
-// };
-
 module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;

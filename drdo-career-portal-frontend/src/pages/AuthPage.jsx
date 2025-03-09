@@ -30,6 +30,7 @@ const AuthPage = () => {
     e.preventDefault();
     const profile = isAdmin ? "admin" : "user";
     const endpoint = isSignUp ? "signup" : "login";
+    // console.log(`http://localhost:8080/${profile}/${endpoint}`);
     try {
       const response = await fetch(
         `http://localhost:8080/${profile}/${endpoint}`,
@@ -41,12 +42,17 @@ const AuthPage = () => {
       );
       const data = await response.json();
       if (data.success) {
-        // console.log(data);
+        console.log(data);
         dispatch(loginSuccess({ email: data.data.email })); // Assuming data.user contains user info like username
         // Set cookie with user data (e.g., email or authToken)
         Cookies.set("userEmail", data.data.email);
         Cookies.set("isLoggedIn", "true");
-        navigate("/");
+        const emailWithoutDomain = data.data.email.split("@")[0];
+        if (isAdmin) {
+          navigate(`/admin/${emailWithoutDomain}`);
+        } else {
+          navigate("/");
+        }
         // localStorage.setItem("redirectTo", window.location.pathname);
         // navigate("/login");
       } else {
